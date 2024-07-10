@@ -8,8 +8,7 @@ import {
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { clsx } from 'clsx';
 import AccountConnect from './AccountConnect';
-import { Experiences } from './Experiences';
-import { NavbarLink, NavbarTitle } from './Navbar';
+import { NavbarTitle } from './Navbar';
 
 export default function NavbarMobile() {
   return (
