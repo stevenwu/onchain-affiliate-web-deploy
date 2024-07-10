@@ -23,7 +23,7 @@ export default function HomePage() {
     error: readErrorMsg,
   } = useReadContract({
     abi,
-    address: process.env.CONTRACT_ADDRESS,
+    address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     functionName: 'getReferrals',
     args: [account.address],
   });
@@ -37,7 +37,7 @@ export default function HomePage() {
 
     writeContract({
       abi,
-      address: process.env.CONTRACT_ADDRESS,
+      address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
       functionName: 'createReferral',
       args: [affiliateAddress, account.address, date, source],
     });

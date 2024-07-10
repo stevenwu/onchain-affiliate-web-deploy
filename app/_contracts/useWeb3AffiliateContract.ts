@@ -18,7 +18,7 @@ export const useWeb3AffiliateContract = generateContractHook({
   },
   [baseSepolia.id]: {
     chain: baseSepolia,
-    address: (process.env.CONTRACT_ADDRESS ?? nullAddress) as Address,
+    address: (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? nullAddress) as Address,
   },
   // ... more chains for this contract go here
 });
