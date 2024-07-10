@@ -17,9 +17,12 @@ function AccountConnect() {
   const { disconnect } = useDisconnect();
   const chainId = useChainId();
 
+  console.log({account});
+  console.log({chainId});
+
   return (
     <div
-      className="flex flex-grow"
+      className="flex"
       {...(status === 'pending' && {
         'aria-hidden': true,
         style: {
@@ -32,10 +35,9 @@ function AccountConnect() {
       {(() => {
         if (account.status === 'disconnected') {
           return <WalletOptions />
-          // return <ConnectAccount />;
         }
 
-        if (account.status === 'connected' && chainId !== localhost.id) {
+        if (account.status === 'connected' && chainId !== account?.chainId) {
           return (
             <button onClick={() => disconnect()} type="button">
               Wrong network

@@ -21,7 +21,7 @@ export default function TableOfContents({ title, contents }: TableOfContentsProp
               <a
                 href={href}
                 data-active={pathname.includes(href)}
-                className="text-base text-sm font-normal text-zinc-400 no-underline underline-offset-2 hover:underline data-[active=true]:text-white"
+                className="text-sm font-normal no-underline underline-offset-2 hover:underline data-[active=true]:text-white"
               >
                 {label}
               </a>

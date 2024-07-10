@@ -31,7 +31,7 @@ export default function Button({
         'flex w-full items-center justify-center',
         'py-4 text-sm',
         variant === 'primary' ? 'bg-white' : 'bg-black',
-        variant === 'primary' ? 'text-black' : 'text-white',
+        variant === 'primary' ? 'text-gray-700' : 'text-white',
         disabled && variant === 'primary' ? 'bg-gray-400' : null,
         disabled && variant === 'secondary' ? 'bg-boat-color-gray-900' : null,
         rounded ? 'rounded-full' : null,

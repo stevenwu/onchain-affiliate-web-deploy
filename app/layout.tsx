@@ -3,13 +3,14 @@ import './global.css';
 import GoogleAnalytics from '@/components/GoogleAnalytics/GoogleAnalytics';
 import OnchainProviders from '@/OnchainProviders';
 import { initAnalytics } from '@/utils/analytics';
-import { inter } from './fonts';
+import { cormorant, ibmPlexSerif, inter, spaceMono } from './fonts';
 import type { Metadata } from 'next';
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1.0,
 };
+
 
 export const metadata: Metadata = {
   manifest: '/manifest.json',
@@ -27,7 +28,7 @@ initAnalytics();
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.className}`}>
+    <html lang="en" className={`${inter.variable} ${spaceMono.variable} ${cormorant.variable} ${ibmPlexSerif.variable}`}>
       <body className="flex flex-1 flex-col">
         <OnchainProviders>{children}</OnchainProviders>
       </body>

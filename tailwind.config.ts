@@ -42,7 +42,13 @@ const config: Config = {
         'boat-color-yellow-70': '#FFD200',
         'boat-color-orange': '#f55925',
         'boat-gold': '#7b602f',
+        'base-blue': '#0052FF'
       },
+      fontFamily: {
+        sans: ['var(--font-inter)'],
+        mono: ['var(--font-space-mono)'],
+        serif: ['var(--font-ibm-plex-serif)'],
+      }
     },
   },
   plugins: [],

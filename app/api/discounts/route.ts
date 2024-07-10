@@ -1,8 +1,9 @@
 import {shopifyApi, LATEST_API_VERSION, GraphqlQueryError} from '@shopify/shopify-api';
-import { Web3AffiliateContractABI } from 'app/_contracts/Web3AffiliateContractABI';
+import { Address } from 'abitype';
 import { NextResponse } from 'next/server';
 import { createPublicClient, http } from 'viem'
 import { baseSepolia, localhost } from 'viem/chains'
+import { Web3AffiliateContractABI } from 'app/_contracts/Web3AffiliateContractABI';
 import '@shopify/shopify-api/adapters/node';
 
 const publicClient = createPublicClient({
@@ -20,15 +21,13 @@ const shopify = shopifyApi({
   // Mount REST resources.
 });
 
-
-
 const session = shopify.session.customAppSession("onchain-affiliate.myshopify.com");
 
 export async function POST(req: Request): Promise<NextResponse> {
   const data = await req.json()
 
   const hasReferral = await publicClient.readContract({
-    address: '0xfa44D585f6028815060E900947eC71e50A7e0Ea8',
+    address: process.env.CONTRACT_ADDRESS as Address,
     abi: Web3AffiliateContractABI,
     functionName: 'hasReferral',
     args: [data.walletAddress],

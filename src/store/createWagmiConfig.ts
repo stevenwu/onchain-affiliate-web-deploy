@@ -1,6 +1,6 @@
 import { createConfig, http } from 'wagmi';
 import { base, baseSepolia, localhost } from 'wagmi/chains';
-import { coinbaseWallet, injected, metaMask, safe, walletConnect } from 'wagmi/connectors'
+import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors'
 
 
 export function createWagmiConfig(rpcUrl: string, projectId?: string) {
@@ -14,15 +14,23 @@ export function createWagmiConfig(rpcUrl: string, projectId?: string) {
   const baseSepoliaUrl = rpcUrl.replace(/\/v1\/(.+?)\//, '/v1/base-sepolia/');
   const localhostUrl = 'http://127.0.0.1:8545'
 
+  const connectors = () => {
+    if (process.env.NODE_ENV === 'production') {
+      return [
+      coinbaseWallet({
+        appName: 'Onchain Affiliate',
+        preference: 'smartWalletOnly',
+      })]
+    }
+
+    return [
+      injected()
+    ]
+  }
+
   return createConfig({
     chains: [baseSepolia,localhost,base],
-    connectors: [
-      coinbaseWallet({
-        appName: 'buildonchainapps',
-        preference: 'smartWalletOnly',
-      }),
-      injected(),
-    ],
+    connectors: connectors(),
     ssr: true,
     transports: {
       [localhost.id]: http(localhostUrl),
