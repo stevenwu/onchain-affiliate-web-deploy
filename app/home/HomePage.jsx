@@ -110,7 +110,7 @@ export default function HomePage() {
             <div className="mt-16">
               <div style={{ position: 'relative', paddingBottom: '58.91980360065466%', height: 0 }}>
                 <iframe
-                  src="https://www.loom.com/embed/3b8e5dc72e814cb485c43b7b75787c6b?sid=19997a2f-6f21-45fa-806c-78ecca6f7c20"
+                  src="https://www.loom.com/embed/677c5f4be8de4a75be92d10218ab68c0?sid=86f57c24-6c0b-4dfd-9576-d0d3eb5535ca"
                   frameBorder={0}
                   webkitallowfullscreen="true"
                   mozallowfullscreen="true"
