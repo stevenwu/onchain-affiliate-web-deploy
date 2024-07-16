@@ -47,12 +47,10 @@ function AccountConnect() {
 
         return (
           <>
-            <div className="flex flex-grow flex-col md:hidden">
+            {/* <div className="flex flex-grow flex-col md:hidden">
               <AccountInfoPanel />
-            </div>
-            <div className="flex hidden md:block">
+            </div> */}
               <AccountDropdown />
-            </div>
           </>
         );
       })()}

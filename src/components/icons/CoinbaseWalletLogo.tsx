@@ -1,9 +1,5 @@
 import React from 'react';
  
-const defaultContainerStyles = {
-  paddingTop: 2,
-};
- 
 export function CoinbaseWalletLogo({
   size = 26,
 }) {

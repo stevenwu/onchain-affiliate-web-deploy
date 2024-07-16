@@ -159,4 +159,4 @@ export const Web3AffiliateContractABI = [
     "outputs": [],
     "stateMutability": "nonpayable"
   }
-]
+] as const;

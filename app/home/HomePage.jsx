@@ -31,17 +31,16 @@ export default function HomePage() {
   async function submit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-
     let date = Math.floor(new Date().getTime() / 1000);
-    let source = 'http://localhost:3000';
 
     writeContract({
       abi,
       address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
       functionName: 'createReferral',
-      args: [affiliateAddress, account.address, date, source],
+      args: [affiliateAddress, account.address, date, 'https://onchain-affiliate-web.vercel.app'],
     });
   }
+
   const features = [
     {
       name: 'Enhanced Security',
@@ -201,7 +200,7 @@ export default function HomePage() {
                 </div>
               </li>
               <li>
-                <p className="inline-block">Visit our <a href="https://onchain-affiliate.myshopify.com" className=''>demo store</a>. The store password is <span className='font-mono bg-white text-base-blue rounded-md px-2'>cheeyo</span>. At checkout, use this payment info.</p>
+                <p className="inline-block">Visit our <a className='underline-offset-4' href="https://onchain-affiliate.myshopify.com">demo store</a>. The store password is <span className='font-mono bg-white text-base-blue rounded-md px-2'>cheeyo</span>. At checkout, use this payment info.</p>
                 <div className="p-3 text-sm lg:text-base mt-3 font-mono max-w-fit">
                   <p><span className='font-bold'>Credit card number:</span> <span className='font-mono'>1</span></p>
                   <p><span className='font-bold'>CVV:</span> any 3-digit number, eg.<span className='font-mono'>123</span></p>
@@ -209,7 +208,7 @@ export default function HomePage() {
                 </div>
               </li>
               <li>
-                <p className="inline-block">Check the chain.</p>
+                <p className="inline-block"><a className='underline-offset-4' href="https://sepolia.basescan.org/address/0xfa44d585f6028815060e900947ec71e50a7e0ea8#internaltx" target="_blank">Check the chain</a> for payouts to affiliates.</p>
               </li>
             </ol>
           </div>
