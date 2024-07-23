@@ -1,16 +1,17 @@
 'use client';
 import { useWeb3AffiliateContract } from 'app/_contracts/useWeb3AffiliateContract';
-import { useAccount, useReadContract, useWriteContract } from 'wagmi';
+import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 import Footer from '@/components/layout/footer/Footer';
 import AccountConnect from '@/components/layout/header/AccountConnect';
 import Header from '@/components/layout/header/Header';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { EyeOpenIcon, LayersIcon, LightningBoltIcon, LockClosedIcon } from '@radix-ui/react-icons';
 
 export default function HomePage() {
   const account = useAccount();
-  const { data: hash, isPending, writeContract, status, error } = useWriteContract();
+  const { data: hash, isPending, writeContract, status: writeContractStatus, error } = useWriteContract();
   const w3a = useWeb3AffiliateContract();
+  const [buttonText, setButtonText] = useState('Claim offer');
 
   let abi = w3a.abi;
 
@@ -27,6 +28,16 @@ export default function HomePage() {
     functionName: 'getReferrals',
     args: [account.address],
   });
+
+  let { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+
+  useEffect(() => {
+    if (readData?.signupDate || isConfirmed) {
+      setButtonText("You're on the list!");
+    } else if (isConfirming) {
+      setButtonText('Waiting for confirmation...');
+    }
+  }, [isConfirmed, readData]);
 
   async function submit(e) {
     e.preventDefault();
@@ -122,28 +133,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="hidden">
-          <h3 className="text-lg">Account</h3>
-          <ul>
-            <li>
-              <b>status</b>: {account.status}
-            </li>
-            <li>
-              <b>addresses</b>: {JSON.stringify(account.addresses)}
-            </li>
-            <li>
-              <b>chainId</b>: {account.chainId}
-            </li>
-            <li>
-              <div>Wagmi Status: {status}</div>
-              <div>Error: {error?.message}</div>
-              <div>
-                {error?.name} {JSON.stringify(error?.cause)}
-              </div>
-            </li>
-          </ul>
-        </div>
-
         <div className="bg-base-blue py-16 text-white sm:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
@@ -158,8 +147,8 @@ export default function HomePage() {
             <ol className="list-inside list-decimal space-y-8">
               <li>
                 <p className="inline-block">Claim the discount.</p>
-                <div className="mx-auto mt-8 flex max-w-fit flex-col items-center bg-white py-5 text-base-blue md:flex-row md:space-x-6 px-4 md:px-8 border-dashed border-green-600 border-8">
-                  <h2 className="md:max-w-sm text-base lg:text-lg">
+                <div className="mx-auto mt-8 flex max-w-fit flex-col items-center border-8 border-dashed border-green-600 bg-white px-4 py-5 text-base-blue md:flex-row md:space-x-6 md:px-8">
+                  <h2 className="text-base md:max-w-sm lg:text-lg">
                     Sign up and get 10% off your next order at OA Snowboards
                   </h2>
                   {account.isDisconnected ? (
@@ -186,11 +175,12 @@ export default function HomePage() {
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         disabled={readData?.signupDate}
                       >
-                        {readData?.signupDate ? "You're on the list!" : 'Claim offer'}
+                        {buttonText}
                       </button>
+
                       <a
                         href="https://onchain-affiliate.myshopify.com"
-                        className="border-base mt-2 rounded-full border-2 bg-white px-3 py-2 text-center text-base text-sm no-underline"
+                        className="border-base mt-2 rounded-full border-2 bg-white px-3 py-2 text-center text-sm no-underline"
                         target="_blank"
                       >
                         Shop now
@@ -200,23 +190,43 @@ export default function HomePage() {
                 </div>
               </li>
               <li>
-                <p className="inline-block">Visit our <a className='underline-offset-4' href="https://onchain-affiliate.myshopify.com">demo store</a>. The store password is <span className='font-mono bg-white text-base-blue rounded-md px-2'>cheeyo</span>. At checkout, use this payment info.</p>
-                <div className="p-3 text-sm lg:text-base mt-3 font-mono max-w-fit">
-                  <p><span className='font-bold'>Credit card number:</span> <span className='font-mono'>1</span></p>
-                  <p><span className='font-bold'>CVV:</span> any 3-digit number, eg.<span className='font-mono'>123</span></p>
-                  <p><span className='font-bold'>Expiry Date:</span> any date in the future</p>
+                <p className="inline-block">
+                  Visit our{' '}
+                  <a className="underline-offset-4" href="https://onchain-affiliate.myshopify.com">
+                    demo store
+                  </a>
+                  . The store password is{' '}
+                  <span className="rounded-md bg-white px-2 font-mono text-base-blue">cheeyo</span>.
+                  At checkout, use this payment info.
+                </p>
+                <div className="mt-3 max-w-fit p-3 font-mono text-sm lg:text-base">
+                  <p>
+                    <span className="font-bold">Credit card number:</span>{' '}
+                    <span className="font-mono">1</span>
+                  </p>
+                  <p>
+                    <span className="font-bold">CVV:</span> any 3-digit number, eg.
+                    <span className="font-mono">123</span>
+                  </p>
+                  <p>
+                    <span className="font-bold">Expiry Date:</span> any date in the future
+                  </p>
                 </div>
               </li>
               <li>
-                <p className="inline-block"><a className='underline-offset-4' href="https://sepolia.basescan.org/address/0xfa44d585f6028815060e900947ec71e50a7e0ea8#internaltx" target="_blank">Check the chain</a> for payouts to affiliates.</p>
+                <p className="inline-block">
+                  <a
+                    className="underline-offset-4"
+                    href="https://sepolia.basescan.org/address/0xfa44d585f6028815060e900947ec71e50a7e0ea8#internaltx"
+                    target="_blank"
+                  >
+                    Check the chain
+                  </a>{' '}
+                  for payouts to affiliates.
+                </p>
               </li>
             </ol>
           </div>
-        </div>
-
-        <div className="hidden">
-          <h1>My Referrals</h1>
-          {JSON.stringify(readData)}
         </div>
       </main>
       <Footer />

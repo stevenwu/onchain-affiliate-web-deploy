@@ -1,6 +1,6 @@
 import { createConfig, http } from 'wagmi';
 import { base, baseSepolia, localhost } from 'wagmi/chains';
-import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors'
+import { coinbaseWallet, injected } from 'wagmi/connectors'
 
 
 export function createWagmiConfig(rpcUrl: string, projectId?: string) {
